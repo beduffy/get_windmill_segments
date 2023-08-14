@@ -30,10 +30,13 @@ class PoseDetector:
     def getPosition(self, img, draw=True):
         lmList= []
         if self.results.pose_landmarks:
+            # import pdb;pdb.set_trace()
             for id, lm in enumerate(self.results.pose_landmarks.landmark):
                 h, w, c = img.shape
                 cx, cy = int(lm.x * w), int(lm.y * h)
-                lmList.append([id, cx, cy])
-                if draw:
+                # lmList.append([id, cx, cy])
+                lmList.append([id, cx, cy, lm.x, lm.y])
+                # if draw:
+                if draw and id in list(range(10)):
                     cv2.circle(img, (cx, cy), 5, (255, 0, 0), cv2.FILLED)
         return lmList
