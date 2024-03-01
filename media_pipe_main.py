@@ -53,9 +53,9 @@ while(cap.isOpened()):
     # head_position_avg = np.array([np.array([p.x, p.y, p.z]) for p in head_positions])
     head_position_avg = np.array([np.array([p[3], p[4]]) for p in head_positions]).mean(axis=0)
     h, w, c = img.shape
-    head_position_avg_img = (int(head_position_avg[0] * w), int(head_position_avg[1] * h))
+    # head_position_avg_img = (int(head_position_avg[0] * w), int(head_position_avg[1] * h))
     
-    cv2.circle(img, head_position_avg_img, 10, (255, 255, 0))
+    # cv2.circle(img, head_position_avg_img, 10, (255, 255, 0))
 
     cTime = time.time()
     fps = 1 / (cTime - pTime)
