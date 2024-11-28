@@ -28,15 +28,44 @@ class PoseDetector:
         return img, self.results.pose_landmarks, self.mpPose.POSE_CONNECTIONS
 
     def getPosition(self, img, draw=True):
-        lmList= []
+        lmList = []
+        body_parts = [
+            "Nose", "Left Eye Inner", "Left Eye", "Left Eye Outer", "Right Eye Inner", 
+            "Right Eye", "Right Eye Outer", "Left Ear", "Right Ear", "Mouth Left", 
+            "Mouth Right", "Left Shoulder", "Right Shoulder", "Left Elbow", "Right Elbow", 
+            "Left Wrist", "Right Wrist", "Left Pinky", "Right Pinky", "Left Index", 
+            "Right Index", "Left Thumb", "Right Thumb", "Left Hip", "Right Hip", 
+            "Left Knee", "Right Knee", "Left Ankle", "Right Ankle", "Left Heel", 
+            "Right Heel", "Left Foot Index", "Right Foot Index"
+        ]
+        
         if self.results.pose_landmarks:
-            # import pdb;pdb.set_trace()
             for id, lm in enumerate(self.results.pose_landmarks.landmark):
                 h, w, c = img.shape
                 cx, cy = int(lm.x * w), int(lm.y * h)
-                # lmList.append([id, cx, cy])
-                lmList.append([id, cx, cy, lm.x, lm.y])
-                # if draw:
+                lmList.append([id, cx, cy, lm.x, lm.y, body_parts[id]])
+                # Add text label for body part name
+                if draw and id in list(range(len(body_parts))):
+                    cv2.putText(img, body_parts[id], (cx+10, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
                 if draw and id in list(range(10)):
                     cv2.circle(img, (cx, cy), 5, (255, 0, 0), cv2.FILLED)
+                    
         return lmList
+
+    def getBodyPartPositions(self):
+        body_part_positions = {}
+        body_parts = [
+            "Nose", "Left Eye Inner", "Left Eye", "Left Eye Outer", "Right Eye Inner", 
+            "Right Eye", "Right Eye Outer", "Left Ear", "Right Ear", "Mouth Left", 
+            "Mouth Right", "Left Shoulder", "Right Shoulder", "Left Elbow", "Right Elbow", 
+            "Left Wrist", "Right Wrist", "Left Pinky", "Right Pinky", "Left Index", 
+            "Right Index", "Left Thumb", "Right Thumb", "Left Hip", "Right Hip", 
+            "Left Knee", "Right Knee", "Left Ankle", "Right Ankle", "Left Heel", 
+            "Right Heel", "Left Foot Index", "Right Foot Index"
+        ]
+        
+        if self.results.pose_landmarks:
+            for id, lm in enumerate(self.results.pose_landmarks.landmark):
+                body_part_positions[body_parts[id]] = (lm.x, lm.y, lm.z)
+        
+        return body_part_positions
