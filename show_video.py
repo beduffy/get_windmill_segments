@@ -1,7 +1,8 @@
 import cv2
 
 
-fp = '/home/ben/Videos/Webcam/2023-08-11-193933.webm'
+# fp = '/home/ben/Videos/Webcam/2023-08-11-193933.webm'
+fp = '/home/ben/Videos/2024-10-17-184610.webm'
 cap = cv2.VideoCapture(fp)
 
 # Check if camera opened successfully
